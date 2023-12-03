@@ -1,0 +1,149 @@
+[gd_scene load_steps=4 format=3 uid="uid://crins0pg1w433"]
+
+[ext_resource type="Texture2D" uid="uid://bwfaskclx4ipd" path="res://Images/black.png" id="1_nmp6a"]
+[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="2_3exvr"]
+[ext_resource type="Theme" uid="uid://cwq20kss7gfox" path="res://Theme/Asteroids_Theme.tres" id="3_pigof"]
+
+[node name="MainMenu" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.00293, 1)
+texture = ExtResource("1_nmp6a")
+stretch_mode = 1
+script = ExtResource("2_3exvr")
+
+[node name="MainMenuButtons" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MainMenuButtons"]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenuButtons/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuButtons/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainMenuButtons/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "OPEN_ASTEROIDS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainMenuButtons/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="MainMenuButtons/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "PLAY GAME"
+
+[node name="SettingsButton" type="Button" parent="MainMenuButtons/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "SETTINGS"
+
+[node name="ControlsButton" type="Button" parent="MainMenuButtons/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "CONTROLS"
+
+[node name="CreditsButton" type="Button" parent="MainMenuButtons/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "CREDITS"
+
+[node name="QuitButton" type="Button" parent="MainMenuButtons/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "QUIT"
+
+[node name="SettingsMenu" type="CenterContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="SettingsMenu"]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsMenu/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsMenu/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "SETTINGS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Music Volume:"
+horizontal_alignment = 1
+
+[node name="MusicVolumeSlider" type="HSlider" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_pigof")
+min_value = -50.0
+max_value = 50.0
+
+[node name="HSeparator2" type="HSeparator" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SFXVolumeLabel" type="Label" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "SFX Volume:"
+horizontal_alignment = 1
+
+[node name="SFXVolumeSlider" type="HSlider" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_pigof")
+min_value = -50.0
+max_value = 50.0
+
+[node name="HSeparator3" type="HSeparator" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="UIVolumeLabel" type="Label" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "UI Volume:"
+horizontal_alignment = 1
+
+[node name="UIVolumeSlider" type="HSlider" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_pigof")
+min_value = -50.0
+max_value = 50.0
+
+[node name="HSeparator4" type="HSeparator" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MenuButton" type="Button" parent="SettingsMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "MAIN MENU"

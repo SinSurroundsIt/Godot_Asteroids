@@ -1,0 +1,15 @@
+Sprite2D
+Node2D
+TextureRect
+Label
+HSlider
+Button
+HSeparator
+VBoxContainer
+MarginContainer
+PanelContainer
+CenterContainer
+AnimationPlayer
+ColorRect
+Timer
+ProgressBar

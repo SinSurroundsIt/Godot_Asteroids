@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://bucnc4glqgnn3"]
+
+[ext_resource type="Script" path="res://Scripts/interface.gd" id="1_6xf73"]
+[ext_resource type="PackedScene" uid="uid://d2cuxqilpxp5t" path="res://Scenes/LifeCounter.tscn" id="1_8qlvy"]
+[ext_resource type="PackedScene" uid="uid://b3hxp1koxn6q4" path="res://Scenes/shield_indicator.tscn" id="2_3jec3"]
+[ext_resource type="PackedScene" uid="uid://b8ol6xpx3oeul" path="res://Scenes/ScoreCounter.tscn" id="3_scc0f"]
+
+[node name="Interface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6xf73")
+
+[node name="ShieldIndicator" parent="." instance=ExtResource("2_3jec3")]
+modulate = Color(0.137255, 1, 1, 1)
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 154.0
+offset_bottom = 147.0
+scale = Vector2(0.4, 0.4)
+
+[node name="ShieldBar" type="ProgressBar" parent="ShieldIndicator"]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 50.0
+offset_right = 580.0
+offset_bottom = 80.0
+show_percentage = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 74.0
+offset_right = 108.0
+offset_bottom = 178.0
+
+[node name="LifeCounter" parent="VBoxContainer" instance=ExtResource("1_8qlvy")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="ScoreCounter" parent="VBoxContainer" instance=ExtResource("3_scc0f")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
