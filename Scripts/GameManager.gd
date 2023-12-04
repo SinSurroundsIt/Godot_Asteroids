@@ -9,47 +9,57 @@ var player_ship: Ship
 
 var _score: int = 0
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	Events.game_state_changed.connect(_Pause_Check)
-	Events.new_lives.emit(lives)
-	Events.update_score.emit(_score)
+var _level: int = 1
+
+var _current_asteroids: int = 0
+var _level_asteroids: int = 0
+
+
+func _ready() -> void:
 	Events.player_died.connect(_Player_Died)
 	Events.asteroid_destroyed.connect(_Destroyed_Asteroid)
+	Events.asteroid_spawned.connect(_Asteroid_Spawned)
+	
+	Events.new_lives.emit(lives)
+	Events.update_score.emit(_score)
+	
 	player_ship = _Spawn_Player()
 	Events.new_player_ship.emit(player_ship)
-	
-	pass # Replace with function body.
+	_New_Level(_level)
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(_delta) -> void:
 	if Input.is_action_just_released("menu"):
 		if !get_tree().paused:
 			Events.game_state_changed.emit(true)
 		else:
 			Events.game_state_changed.emit(false)
+			
 
-
-func _Pause_Check(state: bool):
-	if state == true:
-		print("Game State: Paused")
-	else:
-		print("Game State: Playing")
-
-func _Destroyed_Asteroid(size: int, _position: Vector2, _velocity: Vector2):
+func _Destroyed_Asteroid(size: int, _position: Vector2, _velocity: Vector2) -> void:
 	if size == 3:
 		_Update_Score(1)
 	elif size == 2:
 		_Update_Score(2)
 	else:
 		_Update_Score(3)
+	_current_asteroids -= 1
+	print("Asteroid Destroyed: " + str(_current_asteroids))
+	if _current_asteroids == 0:
+		_level += 1
+		_New_Level(_level)
 
-func _Update_Score(mod: int):
-	_score += mod
+func _Update_Score(mod: int) -> void:
+	for i in mod:
+		_score += 1
+		var _modulo = _score % GameSettings.add_life_divisor
+		if _modulo == 0:
+			_Update_Lives(1)
 	Events.update_score.emit(_score)
 
-func _Player_Died():
+func _Player_Died() -> void:
 	_Update_Lives(-1)
 	if lives > 0:
 		Events.set_spawn_safety.emit(true)
@@ -60,8 +70,7 @@ func _Player_Died():
 		respawn_timer.timeout.connect(_Respawn)
 		respawn_timer.start()
 
-
-func _Update_Lives(mod: int):
+func _Update_Lives(mod: int) -> void:
 	if lives > 0:
 		lives += mod
 		Events.new_lives.emit(lives)
@@ -75,10 +84,18 @@ func _Spawn_Player() -> Ship:
 	ship.position = spawn_point
 	return ship
 	
-func _Respawn():
+func _Respawn() -> void:
 		player_ship = _Spawn_Player()
 		Events.new_player_ship.emit(player_ship)
 		Events.set_spawn_safety.emit(false)
 
-func _Game_Over():
+func _Game_Over() -> void:
 	pass
+
+func _New_Level(new_level: int) -> void:
+	_level_asteroids = ceili(17.07 * (log(_level) / log(10)) + 1)
+	Events.level_start.emit(new_level, _level_asteroids)
+	
+func _Asteroid_Spawned() -> void:
+	_current_asteroids += 1
+	print(_current_asteroids)

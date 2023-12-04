@@ -31,23 +31,39 @@ var _player_ship: Ship
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Spawn_Asteroid(max_asteroid_count, 3)
+	#Spawn_Asteroid(max_asteroid_count, 3)
 	
 	Events.asteroid_destroyed.connect(_Asteroid_Destroyed)
 	Events.new_player_ship.connect(_Set_Player_Ship)
+	Events.level_start.connect(_New_Level)
 	
 	_current_spawn_time = asteroid_spawn_time
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	_Update_Asteroid_Timer(delta)
+	#_Update_Asteroid_Timer(delta)
+	pass
 
-func Spawn_Asteroid(number: int, size: int): 
-	for i in number:
-		var spawn_point: Vector2 = _Get_Offscreen_Spawn_Point()
-		var asteroid: Asteroid = _Spawn_Asteroid_At_Position(size, spawn_point)
-		asteroid.apply_whack(Vector2(randf_range(-GameSettings.spawn_turbulence * size, GameSettings.spawn_turbulence * size) * asteroid.mass, randf_range(-GameSettings.spawn_turbulence * size, GameSettings.spawn_turbulence * size) * asteroid.mass))
+func Spawn_Asteroid(_number: int, _size: int): 
+	for i in _number:
+		#Spawn the asteroid offscreen so we don't see it appear.
+		var _spawn_point: Vector2 = _Get_Offscreen_Spawn_Point()
+		var _asteroid: Asteroid = _Spawn_Asteroid_At_Position(_size, _spawn_point)
+		
+		#Find a point on a circle around the player and get the vector to it.
+		var _player_spawn_circle: Vector2 = _Get_Position_On_Circle(_player_ship.position, randf_range(50, 100))
+		var _spawn_circle_vector: Vector2 = _Get_Direction(_player_spawn_circle, _asteroid.position).normalized()
+		
+		#Introduce some turbulence.
+		var _turbulence_vector: Vector2 = Vector2(randf_range(-GameSettings.spawn_turbulence * _size, GameSettings.spawn_turbulence * _size), randf_range(-GameSettings.spawn_turbulence * _size, GameSettings.spawn_turbulence * _size)).normalized()
+		var _turbulence_influence: float = 0.3
+		
+		#Combine the two.
+		var _whack_vector: Vector2 = (_spawn_circle_vector * (1 - _turbulence_influence) + _turbulence_vector * _turbulence_influence).normalized()
+
+		#Hit the rock towards the player, kinda.
+		_asteroid.apply_whack(_whack_vector * _asteroid.mass * randf_range(50, 100))
 		
 func _Spawn_Asteroid_At_Position(size: int, pos: Vector2) -> Asteroid:
 	var asteroid: Asteroid = _asteroid_tscn.instantiate()
@@ -63,27 +79,30 @@ func _Spawn_Asteroid_At_Position(size: int, pos: Vector2) -> Asteroid:
 	asteroid.size = size
 	add_child(asteroid)
 	asteroid.position = pos
+	Events.asteroid_spawned.emit()
 	return asteroid
-	
-func _Update_Asteroid_Timer(delta: float):
-	if _current_spawn_time > 0:
-		_current_spawn_time -= delta
-	if _current_spawn_time <= 0:
-		_Maybe_Spawn_Asteroids()
-		_current_spawn_time = asteroid_spawn_time
-		
-func _Maybe_Spawn_Asteroids():
-	var _number_of_asteroids_to_spawn: int
-	if _current_large_asteroids < max_asteroid_count:
-		_number_of_asteroids_to_spawn = max_asteroid_count - _current_large_asteroids
-		for i in _number_of_asteroids_to_spawn:
-			var spawn_point = _Get_Offscreen_Spawn_Point()
-			var asteroid: Asteroid = _Spawn_Asteroid_At_Position(3, spawn_point)
-			if !_player_ship == null:
-				asteroid.apply_whack(_Get_Direction(asteroid.position, _player_ship.position) * asteroid.mass * randf_range(100, 200))
-			else:
-				asteroid.apply_whack(_Get_Direction(asteroid.position, project_resolution / 2) * asteroid.mass * randf_range(50, 100))
-			print("Spawning Asteroid at position: " + str(asteroid.position))
+
+#Commented out as we're now spawning on level end.
+#func _Update_Asteroid_Timer(delta: float):
+#	if _current_spawn_time > 0:
+#		_current_spawn_time -= delta
+#	if _current_spawn_time <= 0:
+#		_Maybe_Spawn_Asteroids()
+#		_current_spawn_time = asteroid_spawn_time
+
+#Commented out as we're now spawning on level end.		
+#func _Maybe_Spawn_Asteroids():
+#	var _number_of_asteroids_to_spawn: int
+#	if _current_large_asteroids < max_asteroid_count:
+#		_number_of_asteroids_to_spawn = max_asteroid_count - _current_large_asteroids
+#		for i in _number_of_asteroids_to_spawn:
+#			var spawn_point = _Get_Offscreen_Spawn_Point()
+#			var asteroid: Asteroid = _Spawn_Asteroid_At_Position(3, spawn_point)
+#			if !_player_ship == null:
+#				asteroid.apply_whack(_Get_Direction(asteroid.position, _player_ship.position) * asteroid.mass * randf_range(100, 200))
+#			else:
+#				asteroid.apply_whack(_Get_Direction(asteroid.position, project_resolution / 2) * asteroid.mass * randf_range(50, 100))
+#			print("Spawning Asteroid at position: " + str(asteroid.position))
 
 func _Asteroid_Destroyed(size: int, pos: Vector2, vel: Vector2):
 	var asteroid: Asteroid
@@ -142,3 +161,12 @@ func _Get_Direction(from: Vector2, to: Vector2) -> Vector2:
 	var direction: Vector2
 	direction = (from - to).normalized()
 	return direction
+	
+func _Get_Position_On_Circle(position: Vector2, radius: float) -> Vector2:
+	var _radius_vector = Vector2(radius, 0)
+	var _random_rotation: float = randf_range(0, 2 * PI)
+	var _new_pos: Vector2 = position + _radius_vector.rotated(_random_rotation)
+	return _new_pos
+
+func _New_Level(asteroids: int, level: int):
+	Spawn_Asteroid(asteroids, 3)

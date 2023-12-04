@@ -29,5 +29,5 @@ vertical_alignment = 1
 [node name="Label" type="Label" parent="."]
 custom_minimum_size = Vector2(25, 0)
 layout_mode = 2
-text = "3"
+text = "0"
 vertical_alignment = 1

@@ -7,3 +7,7 @@ extends Node
 var repulse_strength: float = 75
 
 var spawn_turbulence: float = 30
+
+var initial_spawns: int = 1
+
+var add_life_divisor: int = 100

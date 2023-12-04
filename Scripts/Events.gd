@@ -7,6 +7,7 @@ signal fire_laser_sound()
 
 signal asteroid_destroyed(size: int, position: Vector2, velocity: Vector2)
 signal asteroid_destroyed_sound()
+signal asteroid_spawned()
 
 signal game_state_changed(state: bool)
 
@@ -28,3 +29,6 @@ signal shield_hit()
 signal shield_down()
 
 signal ship_explode(_pos: Vector2)
+
+#used to send the number of asteroids to Asteroid Manager, and the level to the new level pop-up (TODO)
+signal level_start(asteroids: int, level: int)
