@@ -56,10 +56,12 @@ layout_mode = 2
 text = "SETTINGS"
 
 [node name="ControlsButton" type="Button" parent="MainMenuButtons/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "CONTROLS"
 
 [node name="CreditsButton" type="Button" parent="MainMenuButtons/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "CREDITS"
 
