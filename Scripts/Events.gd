@@ -32,3 +32,10 @@ signal ship_explode(_pos: Vector2)
 
 #used to send the number of asteroids to Asteroid Manager, and the level to the new level pop-up (TODO)
 signal level_start(asteroids: int, level: int)
+
+
+#Menu Signals
+signal main_menu
+signal controls_menu
+signal credits_menu
+signal settings_menu

@@ -16,7 +16,12 @@ res://Scenes/shield_indicator.tscn
 res://Scenes/interface.tscn
 res://Scenes/pause_menu.tscn
 res://Scenes/main_menu.tscn
-res://Scripts/GameSettings.gd
-res://Scripts/GameManager.gd
-res://Scripts/Events.gd
 res://Scripts/AsteroidManager.gd
+res://Scripts/main_menu.gd
+res://Scripts/ship.gd
+res://Scripts/Asteroid.gd
+res://Scripts/pause_menu.gd
+res://Scripts/GameManager.gd
+res://Scripts/MainMenuButtons.gd
+res://Scripts/Events.gd
+res://Scenes/SettingsMenu.gd

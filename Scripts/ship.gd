@@ -101,11 +101,11 @@ func calc_linear_force() -> float:
 func _update_state(_dt: float) -> void:
 	_local_velocity = global_transform.basis_xform_inv(linear_velocity)
  
-func _Screen_Wrap(transform) -> Transform2D:
-	var xform = transform   
-	xform.origin.x = wrapf(position.x, 0.0, project_resolution.x)
-	xform.origin.y = wrapf(position.y, 0.0, project_resolution.y)
-	return xform
+func _Screen_Wrap(_transform_in: Transform2D) -> Transform2D:
+	var _xform: Transform2D = _transform_in   
+	_xform.origin.x = wrapf(position.x, 0.0, project_resolution.x)
+	_xform.origin.y = wrapf(position.y, 0.0, project_resolution.y)
+	return _xform
 	
 
 func _Fire_Laser() -> void:

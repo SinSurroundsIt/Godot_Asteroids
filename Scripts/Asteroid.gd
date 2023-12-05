@@ -18,7 +18,7 @@ var size: int = 3
 var texture: Texture2D
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	sprite.set_texture(texture)
 	_hit_cap = size
 	if size == 3:
@@ -33,7 +33,7 @@ func _ready():
 	mass = random_mass
 	add_to_group("asteroids")
 
-func _physics_process(_delta):
+func _physics_process(_delta) -> void:
 	if _b_is_phys_init == false:
 		apply_central_impulse(random_velocity)
 		apply_torque(50000)
@@ -41,16 +41,16 @@ func _physics_process(_delta):
 	pass
 
 
-func _integrate_forces(state):
+func _integrate_forces(state) -> void:
 	state.transform = _Screen_Wrap(state.transform)
 
-func _Screen_Wrap(transform) -> Transform2D:
-	var xform = transform
-	xform.origin.x = wrapf(position.x, -100.0, project_resolution.x + 100.0)
-	xform.origin.y = wrapf(position.y, -100.0, project_resolution.y + 100.0)
-	return xform
+func _Screen_Wrap(_transform_in: Transform2D) -> Transform2D:
+	var _xform: Transform2D = _transform_in
+	_xform.origin.x = wrapf(position.x, -100.0, project_resolution.x + 100.0)
+	_xform.origin.y = wrapf(position.y, -100.0, project_resolution.y + 100.0)
+	return _xform
 	
-func take_weapon_damage():
+func take_weapon_damage() -> void:
 	if _hit_cap > 0:
 		_hit_cap -= 1;
 	else:
@@ -58,13 +58,13 @@ func take_weapon_damage():
 		Events.asteroid_destroyed_sound.emit()
 		queue_free()
 		
-func destroy():
+func destroy() -> void:
 	Events.asteroid_destroyed.emit(size, position, linear_velocity)
 	Events.asteroid_destroyed_sound.emit()
 	queue_free()
 		
-func apply_whack(impulse: Vector2):
-	apply_central_impulse(impulse)
+func apply_whack(_impulse: Vector2) -> void:
+	apply_central_impulse(_impulse)
 	
-func apply_spin(impulse: float):
-	apply_torque_impulse(impulse)
+func apply_spin(_impulse: float) -> void:
+	apply_torque_impulse(_impulse)

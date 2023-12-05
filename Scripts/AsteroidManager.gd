@@ -41,8 +41,8 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	#_Update_Asteroid_Timer(delta)
+func _process(_delta):
+	#_Update_Asteroid_Timer(_delta)
 	pass
 
 func Spawn_Asteroid(_number: int, _size: int): 
@@ -168,5 +168,5 @@ func _Get_Position_On_Circle(position: Vector2, radius: float) -> Vector2:
 	var _new_pos: Vector2 = position + _radius_vector.rotated(_random_rotation)
 	return _new_pos
 
-func _New_Level(asteroids: int, level: int):
-	Spawn_Asteroid(asteroids, 3)
+func _New_Level(_asteroids: int, _level: int):
+	Spawn_Asteroid(_asteroids, 3)
