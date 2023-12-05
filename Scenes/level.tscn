@@ -37,6 +37,7 @@ script = ExtResource("3_8flws")
 script = ExtResource("4_kq6lm")
 
 [node name="AudioManager" type="Node" parent="."]
+process_mode = 3
 script = ExtResource("5_tgenk")
 
 [node name="GameManager" type="Node" parent="."]
