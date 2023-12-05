@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func _physics_process(delta) -> void:
 	var frame_move_vector: Vector2 = -transform.y * speed + velocity * delta 
-	_raycast.target_position = to_local(global_position + frame_move_vector * 2)
+	_raycast.target_position = to_local(global_position + frame_move_vector)
 	_raycast.force_raycast_update()
 	
 	var collider: Node2D = _raycast.get_collider()
