@@ -25,3 +25,7 @@ res://Scripts/GameManager.gd
 res://Scripts/MainMenuButtons.gd
 res://Scripts/Events.gd
 res://Scenes/SettingsMenu.gd
+res://Scenes/laser_impact.tscn
+res://Scripts/SFXManager.gd
+res://Scripts/laser_impact.gd
+res://Scripts/MenuMusicManager.gd

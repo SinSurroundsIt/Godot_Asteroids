@@ -25,6 +25,9 @@ func _physics_process(delta) -> void:
 	if collider != null:
 		if collider.has_method("take_weapon_damage"):
 			collider.take_weapon_damage()
+		var _impact_pos: Vector2 = _raycast.get_collision_point()
+		var _impact_normal: Vector2 = _raycast.get_collision_normal()
+		Events.asteroid_laser_hit.emit(_impact_pos, _impact_normal)
 		queue_free()
 	
 	global_position += frame_move_vector

@@ -20,6 +20,7 @@ signal update_score(new_score: int)
 signal set_spawn_safety(b_safe: bool)
 
 signal asteroid_explode(position: Vector2, velocity: Vector2 )
+signal asteroid_laser_hit(pos: Vector2, normal: Vector2)
 
 signal update_shield_strength(max: float, strength: float)
 signal shield_timer_start()
