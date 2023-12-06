@@ -10,3 +10,6 @@ export_presets.cfg
 .mono/
 data_*/
 .godot/editor/script_editor_cache.cfg
+.godot/editor/level.tscn-editstate-509c53c765b75d897e8314a88ec6c376.cfg
+.godot/editor/main_menu.tscn-editstate-502e6a9b269597544b234abf28958cd8.cfg
+*.cfg
