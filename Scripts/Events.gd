@@ -8,6 +8,8 @@ signal fire_laser_sound()
 signal asteroid_destroyed(size: int, position: Vector2, velocity: Vector2)
 signal asteroid_destroyed_sound()
 signal asteroid_spawned()
+signal get_asteroids()
+signal send_asteroids(asteroids: Array)
 
 signal game_state_changed(state: bool)
 

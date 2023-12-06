@@ -30,22 +30,23 @@ var _current_spawn_time: float
 var _player_ship: Ship
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	#Spawn_Asteroid(max_asteroid_count, 3)
 	
 	Events.asteroid_destroyed.connect(_Asteroid_Destroyed)
 	Events.new_player_ship.connect(_Set_Player_Ship)
 	Events.level_start.connect(_New_Level)
+	Events.get_asteroids.connect(_Get_Asteroids_Group)
 	
 	_current_spawn_time = asteroid_spawn_time
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(_delta) -> void:
 	#_Update_Asteroid_Timer(_delta)
 	pass
 
-func Spawn_Asteroid(_number: int, _size: int): 
+func Spawn_Asteroid(_number: int, _size: int) -> void: 
 	for i in _number:
 		#Spawn the asteroid offscreen so we don't see it appear.
 		var _spawn_point: Vector2 = _Get_Offscreen_Spawn_Point()
@@ -104,7 +105,7 @@ func _Spawn_Asteroid_At_Position(size: int, pos: Vector2) -> Asteroid:
 #				asteroid.apply_whack(_Get_Direction(asteroid.position, project_resolution / 2) * asteroid.mass * randf_range(50, 100))
 #			print("Spawning Asteroid at position: " + str(asteroid.position))
 
-func _Asteroid_Destroyed(size: int, pos: Vector2, vel: Vector2):
+func _Asteroid_Destroyed(size: int, pos: Vector2, vel: Vector2) -> void:
 	var asteroid: Asteroid
 	var vel_in: Vector2 = vel
 	var temp_vel: Vector2 = vel
@@ -154,7 +155,7 @@ func _Get_Offscreen_Spawn_Point() -> Vector2:
 		
 	return spawn_point
 
-func _Set_Player_Ship(ship: Ship):
+func _Set_Player_Ship(ship: Ship) -> void:
 	_player_ship = ship
 	
 func _Get_Direction(from: Vector2, to: Vector2) -> Vector2:
@@ -168,5 +169,9 @@ func _Get_Position_On_Circle(position: Vector2, radius: float) -> Vector2:
 	var _new_pos: Vector2 = position + _radius_vector.rotated(_random_rotation)
 	return _new_pos
 
-func _New_Level(_asteroids: int, _level: int):
+func _New_Level(_asteroids: int, _level: int) -> void:
 	Spawn_Asteroid(_asteroids, 3)
+
+func _Get_Asteroids_Group() -> void:
+	var _asteroids: Array = get_tree().get_nodes_in_group("asteroids")
+	Events.send_asteroids.emit(_asteroids)

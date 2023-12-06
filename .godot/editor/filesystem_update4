@@ -29,3 +29,6 @@ res://Scenes/laser_impact.tscn
 res://Scripts/SFXManager.gd
 res://Scripts/laser_impact.gd
 res://Scripts/MenuMusicManager.gd
+res://Scenes/radar.tscn
+res://Scripts/radar.gd
+res://Scenes/radar_dot.tscn

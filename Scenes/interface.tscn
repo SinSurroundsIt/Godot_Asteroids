@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bucnc4glqgnn3"]
+[gd_scene load_steps=6 format=3 uid="uid://bucnc4glqgnn3"]
 
 [ext_resource type="Script" path="res://Scripts/interface.gd" id="1_6xf73"]
 [ext_resource type="PackedScene" uid="uid://d2cuxqilpxp5t" path="res://Scenes/LifeCounter.tscn" id="1_8qlvy"]
 [ext_resource type="PackedScene" uid="uid://b3hxp1koxn6q4" path="res://Scenes/shield_indicator.tscn" id="2_3jec3"]
 [ext_resource type="PackedScene" uid="uid://b8ol6xpx3oeul" path="res://Scenes/ScoreCounter.tscn" id="3_scc0f"]
+[ext_resource type="PackedScene" uid="uid://da878g6ome1e6" path="res://Scenes/radar.tscn" id="5_742vs"]
 
 [node name="Interface" type="Control"]
 layout_mode = 3
@@ -48,3 +49,10 @@ layout_mode = 2
 [node name="ScoreCounter" parent="VBoxContainer" instance=ExtResource("3_scc0f")]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+
+[node name="radar" parent="." instance=ExtResource("5_742vs")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 937.0
+offset_right = 228.0
+offset_bottom = 1081.0
