@@ -51,12 +51,10 @@ func _Screen_Wrap(_transform_in: Transform2D) -> Transform2D:
 	return _xform
 	
 func take_weapon_damage() -> void:
-	if _hit_cap > 0:
+	if _hit_cap > 1:
 		_hit_cap -= 1;
 	else:
-		Events.asteroid_destroyed.emit(size, position, linear_velocity)
-		Events.asteroid_destroyed_sound.emit()
-		queue_free()
+		destroy()
 		
 func destroy() -> void:
 	Events.asteroid_destroyed.emit(size, position, linear_velocity)
