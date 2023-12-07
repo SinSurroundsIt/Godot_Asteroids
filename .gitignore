@@ -14,3 +14,5 @@ data_*/
 .godot/editor/main_menu.tscn-editstate-502e6a9b269597544b234abf28958cd8.cfg
 *.cfg
 *.cfg
+.godot/editor/filesystem_cache8
+.godot/editor/filesystem_update4
