@@ -1,9 +1,1 @@
 res://default_bus_layout.tres
-res://Scenes/level.tscn
-res://Scripts/laser.gd
-res://Scripts/pause_menu_blur.gdshader
-res://UI/Buttons/ButtonStyleHover.tres
-res://UI/Buttons/ButtonStyleNormal.tres
-res://UI/Buttons/ButtonStylePressed.tres
-res://UI/Panels/Panel.tres
-res://Scenes/main_menu.tscn
