@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Events="*res://Scripts/Events.gd"
 GameSettings="*res://Scripts/GameSettings.gd"
+HighScore="*res://Scripts/high_score.gd"
 
 [display]
 

@@ -1,6 +1,7 @@
 extends Node
 
-@export var lives: int
+@export var starting_lives: int
+var lives: int
 
 @onready var ship_tscn = preload("res://Scenes/ship.tscn")
 @onready var project_resolution:Vector2 = get_viewport().content_scale_size
@@ -19,9 +20,12 @@ func _ready() -> void:
 	Events.player_died.connect(_Player_Died)
 	Events.asteroid_destroyed.connect(_Destroyed_Asteroid)
 	Events.asteroid_spawned.connect(_Asteroid_Spawned)
+	Events.new_game.connect(_New_Game)
 	
 	Events.new_lives.emit(lives)
 	Events.update_score.emit(_score)
+	
+	lives = starting_lives
 	
 	player_ship = _Spawn_Player()
 	Events.new_player_ship.emit(player_ship)
@@ -90,7 +94,7 @@ func _Respawn() -> void:
 		Events.set_spawn_safety.emit(false)
 
 func _Game_Over() -> void:
-	pass
+	Events.game_over.emit(_score)
 
 func _New_Level(new_level: int) -> void:
 	_level_asteroids = ceili(17.07 * (log(_level) / log(10)) + 1)
@@ -99,3 +103,19 @@ func _New_Level(new_level: int) -> void:
 func _Asteroid_Spawned() -> void:
 	_current_asteroids += 1
 	print(_current_asteroids)
+	
+func _New_Game():
+	var asteroids: Array = get_tree().get_nodes_in_group("asteroids")
+	for asteroid: Asteroid in asteroids:
+		asteroid.queue_free()
+	
+	lives = starting_lives
+	_score = 0
+	_level = 1
+	
+	Events.new_lives.emit(lives)
+	Events.update_score.emit(_score)
+	
+	player_ship = _Spawn_Player()
+	Events.new_player_ship.emit(player_ship)
+	_New_Level(_level)

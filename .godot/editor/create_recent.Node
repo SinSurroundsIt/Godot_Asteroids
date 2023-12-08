@@ -1,8 +1,9 @@
-RichTextLabel
 Label
-TextureRect
-HBoxContainer
 VBoxContainer
+HBoxContainer
+TextEdit
+RichTextLabel
+TextureRect
 Sprite2D
 Timer
 Panel
@@ -11,5 +12,3 @@ PanelContainer
 Node
 GPUParticles2D
 Node2D
-HSlider
-Button

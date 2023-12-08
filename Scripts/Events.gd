@@ -17,8 +17,10 @@ signal player_died()
 signal new_lives(new_life_amount: int)
 signal new_player_ship(ship: Ship)
 
+#Used to update the current score of the round
 signal update_score(new_score: int)
 
+#used to set ship to invulnerable and repel objects from origin
 signal set_spawn_safety(b_safe: bool)
 
 signal asteroid_explode(position: Vector2, velocity: Vector2 )
@@ -42,3 +44,11 @@ signal main_menu
 signal controls_menu
 signal credits_menu
 signal settings_menu
+
+#Score Signals
+signal save_score
+
+#Game start and end signals. Used to send the score to the high score autoload,
+#and to tell the game manager to start a new round.
+signal game_over(score: int)
+signal new_game
