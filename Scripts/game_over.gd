@@ -60,6 +60,7 @@ func _Game_Over(_score: int):
 func _On_New_Game_Pressed():
 	_New_Game(_b_high_score, score_name.text, _current_score)
 	_Unpause()
+	visible = false
 	
 func _New_Game(_b_high_score: bool, _score_name: String, _score: int):
 	if _b_high_score:
@@ -67,3 +68,4 @@ func _New_Game(_b_high_score: bool, _score_name: String, _score: int):
 		Events.new_game.emit()
 	else:
 		Events.new_game.emit()
+	

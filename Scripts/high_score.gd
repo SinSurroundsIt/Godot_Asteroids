@@ -4,8 +4,6 @@ const HIGH_SCORE_FILE_PATH = "user://highscore.save"
 var _high_score_name: String = "Nullson"
 var _high_score: int = -1
 
-var _score_data: Dictionary
-
 #On ready, loads the highscores from disk.
 func _ready():
 	_Load_Score()
