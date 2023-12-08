@@ -1,12 +1,12 @@
 extends ColorRect
 
 @onready var animator: AnimationPlayer = get_node("AnimationPlayer")
-@onready var resume_button: Button = get_node("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/NewGameBox/NewGameButton")
-@onready var score_name: TextEdit = get_node("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/NewGameBox/NameField")
-@onready var menu_button: Button = get_node("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MenuButton")
-@onready var quit_button: Button = get_node("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/QuitButton")
-@onready var high_score_name_label: Label = get_node("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HSeparator/VBoxContainer/HBoxContainer/HighScoreName")
-@onready var high_score_score_label: Label = get_node("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HSeparator/VBoxContainer/HBoxContainer/HighScoreScore")
+@onready var resume_button: Button = get_node("CCont/PCont/MCont/VBoxTop/NewGameBox/NewGameButton")
+@onready var score_name: TextEdit = get_node("CCont/PCont/MCont/VBoxTop/NewGameBox/NameField")
+@onready var menu_button: Button = get_node("CCont/PCont/MCont/VBoxTop/HBoxContainer/MenuButton")
+@onready var quit_button: Button = get_node("CCont/PCont/MCont/VBoxTop/HBoxContainer/QuitButton")
+@onready var high_score_name_label: Label = get_node("CCont/PCont/MCont/VBoxTop/CurrentHighScoreVBox/HBoxContainer/HighScoreName")
+@onready var high_score_score_label: Label = get_node("CCont/PCont/MCont/VBoxTop/CurrentHighScoreVBox/HBoxContainer/HighScoreScore")
 
 var _current_scene = null
 var s = null
