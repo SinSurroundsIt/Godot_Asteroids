@@ -25,7 +25,6 @@ func _ready() -> void:
 	Events.game_over.connect(_Game_Over)
 	high_score_name_label.text = HighScore._high_score_name
 	high_score_score_label.text = str(HighScore._high_score)
-	visible = false
 	_Pause()
 
 func _Unpause():
@@ -38,7 +37,8 @@ func _To_Main_Menu():
 	print("To Main Menu")
 	_Unpause()
 	call_deferred("_Call_Deferred_Switch_Scene")
-
+	queue_free()
+	
 func _Call_Deferred_Switch_Scene():
 	_current_scene.queue_free()
 	_current_scene = s.instantiate()
@@ -46,7 +46,6 @@ func _Call_Deferred_Switch_Scene():
 	get_tree().current_scene = _current_scene
 	
 func _Game_Over(_score: int):
-	visible = true
 	_current_score = _score
 	if _current_score > HighScore._high_score:
 		_b_high_score = true
@@ -60,7 +59,7 @@ func _Game_Over(_score: int):
 func _On_New_Game_Pressed():
 	_New_Game(_b_high_score, score_name.text, _current_score)
 	_Unpause()
-	visible = false
+	queue_free()
 	
 func _New_Game(_b_high_score: bool, _score_name: String, _score: int):
 	if _b_high_score:

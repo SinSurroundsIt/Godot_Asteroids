@@ -127,9 +127,10 @@ func _on_body_shape_entered(_body_rid, body, _body_shape_index, local_shape_inde
 		print(body)
 		var shape = self.shape_owner_get_owner(self.shape_find_owner(local_shape_index))
 		if shape == hull_collider:
-			var asteroid: Asteroid = body
-			if asteroid.size > 1 && !_b_ship_invuln:
-				_Ship_Kill()
+			if shape.is_class("Asteroid"):
+				var asteroid: Asteroid = body
+				if asteroid.size > 1 && !_b_ship_invuln:
+					_Ship_Kill()
 
 				
 func _Set_Ship_Invuln(is_invuln: bool):

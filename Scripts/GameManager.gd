@@ -5,6 +5,9 @@ var lives: int
 
 @onready var ship_tscn = preload("res://Scenes/ship.tscn")
 @onready var project_resolution:Vector2 = get_viewport().content_scale_size
+@onready var canvas: CanvasLayer = get_parent().get_node("CanvasLayer")
+@onready var pause_menu_tscn = preload("res://Scenes/pause_menu.tscn")
+@onready var gameover_menu_tscn = preload("res://Scenes/game_over.tscn")
 
 var player_ship: Ship
 
@@ -22,24 +25,19 @@ func _ready() -> void:
 	Events.asteroid_spawned.connect(_Asteroid_Spawned)
 	Events.new_game.connect(_New_Game)
 	
-	Events.new_lives.emit(lives)
-	Events.update_score.emit(_score)
-	
-	lives = starting_lives
-	
-	player_ship = _Spawn_Player()
-	Events.new_player_ship.emit(player_ship)
-	_New_Level(_level)
+	_New_Game()
 
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta) -> void:
 	if Input.is_action_just_released("menu"):
 		if !get_tree().paused:
+			var pause = pause_menu_tscn.instantiate()
+			canvas.add_child(pause)
 			Events.game_state_changed.emit(true)
 		else:
 			Events.game_state_changed.emit(false)
+	if Input.is_action_just_released("game_over"):
+		_Update_Lives(-3)
 			
 
 func _Destroyed_Asteroid(size: int, _position: Vector2, _velocity: Vector2) -> void:
@@ -78,7 +76,7 @@ func _Update_Lives(mod: int) -> void:
 	if lives > 0:
 		lives += mod
 		Events.new_lives.emit(lives)
-	if lives == 0:
+	if lives <= 0:
 		_Game_Over()
 
 func _Spawn_Player() -> Ship:
@@ -94,6 +92,8 @@ func _Respawn() -> void:
 		Events.set_spawn_safety.emit(false)
 
 func _Game_Over() -> void:
+	var gameover = gameover_menu_tscn.instantiate()
+	canvas.add_child(gameover)
 	Events.game_over.emit(_score)
 
 func _New_Level(new_level: int) -> void:

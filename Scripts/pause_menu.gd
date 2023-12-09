@@ -17,7 +17,7 @@ func _ready() -> void:
 	menu_button.pressed.connect(_To_Main_Menu)
 	quit_button.pressed.connect(get_tree().quit)
 	Events.game_state_changed.connect(_Game_State_Update)
-
+	_Pause()
 	
 func _Game_State_Update(paused: bool):
 	if paused == true: _Pause()
@@ -27,6 +27,7 @@ func _Unpause():
 	animator.play("Unpause")
 	print("Unpause")
 	get_tree().paused = false
+	queue_free()
 	
 func _Pause():
 	animator.play("Pause")
@@ -37,6 +38,7 @@ func _To_Main_Menu():
 	print("To Main Menu")
 	_Unpause()
 	call_deferred("_Call_Deferred_Switch_Scene")
+	queue_free()
 
 func _Call_Deferred_Switch_Scene():
 	_current_scene.queue_free()
