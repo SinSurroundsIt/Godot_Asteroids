@@ -20,6 +20,9 @@ signal new_player_ship(ship: Ship)
 #Used to update the current score of the round
 signal update_score(new_score: int)
 
+#Used to signal the level counter in interface.tscn
+signal update_level(new_level: int)
+
 #used to set ship to invulnerable and repel objects from origin
 signal set_spawn_safety(b_safe: bool)
 

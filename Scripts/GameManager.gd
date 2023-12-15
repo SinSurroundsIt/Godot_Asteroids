@@ -51,7 +51,12 @@ func _Destroyed_Asteroid(size: int, _position: Vector2, _velocity: Vector2) -> v
 	print("Asteroid Destroyed: " + str(_current_asteroids))
 	if _current_asteroids == 0:
 		_level += 1
-		_New_Level(_level)
+		Events.update_level.emit(_level)
+		var level_start_timer: Timer = Timer.new()
+		level_start_timer.timeout.connect(_New_Level)
+		level_start_timer.timeout.connect(level_start_timer.queue_free)
+		add_child(level_start_timer)
+		level_start_timer.start(2)
 
 func _Update_Score(mod: int) -> void:
 	for i in mod:
@@ -96,9 +101,9 @@ func _Game_Over() -> void:
 	canvas.add_child(gameover)
 	Events.game_over.emit(_score)
 
-func _New_Level(new_level: int) -> void:
+func _New_Level() -> void:
 	_level_asteroids = ceili(17.07 * (log(_level) / log(10)) + 1)
-	Events.level_start.emit(new_level, _level_asteroids)
+	Events.level_start.emit(_level, _level_asteroids)
 	
 func _Asteroid_Spawned() -> void:
 	_current_asteroids += 1
@@ -115,7 +120,8 @@ func _New_Game():
 	
 	Events.new_lives.emit(lives)
 	Events.update_score.emit(_score)
+	Events.update_level.emit(_level)
 	
 	player_ship = _Spawn_Player()
 	Events.new_player_ship.emit(player_ship)
-	_New_Level(_level)
+	_New_Level()

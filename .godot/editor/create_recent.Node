@@ -1,6 +1,6 @@
 Label
-VBoxContainer
 HBoxContainer
+VBoxContainer
 TextEdit
 RichTextLabel
 TextureRect
