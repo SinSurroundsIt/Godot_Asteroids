@@ -1,12 +1,12 @@
 [gd_scene load_steps=21 format=3 uid="uid://crins0pg1w433"]
 
 [ext_resource type="Texture2D" uid="uid://bwfaskclx4ipd" path="res://Images/black.png" id="1_nmp6a"]
-[ext_resource type="Script" path="res://Scenes/SettingsMenu.gd" id="3_c841p"]
-[ext_resource type="Script" path="res://Scripts/MainMenuButtons.gd" id="3_ic6mt"]
+[ext_resource type="Script" uid="uid://40ujmvstadap" path="res://Scenes/SettingsMenu.gd" id="3_c841p"]
+[ext_resource type="Script" uid="uid://btcsf24euhccb" path="res://Scripts/MainMenuButtons.gd" id="3_ic6mt"]
 [ext_resource type="Theme" uid="uid://cwq20kss7gfox" path="res://Theme/Asteroids_Theme.tres" id="3_pigof"]
 [ext_resource type="Texture2D" uid="uid://b7va2t12gcs71" path="res://UI/Controls/tile_0119.png" id="5_4w7mh"]
-[ext_resource type="Script" path="res://Scripts/MenuMusicManager.gd" id="5_dbeaf"]
-[ext_resource type="Script" path="res://Scripts/ControlsMenu.gd" id="5_qxkbx"]
+[ext_resource type="Script" uid="uid://drqs6rxgb7a6d" path="res://Scripts/MenuMusicManager.gd" id="5_dbeaf"]
+[ext_resource type="Script" uid="uid://b3vm1pqml3iem" path="res://Scripts/ControlsMenu.gd" id="5_qxkbx"]
 [ext_resource type="Texture2D" uid="uid://blcer4kd5286f" path="res://UI/Controls/tile_0086.png" id="6_i7ib0"]
 [ext_resource type="Texture2D" uid="uid://blr8k5htegar" path="res://UI/Controls/tile_0247.png" id="7_scvno"]
 [ext_resource type="Texture2D" uid="uid://ygkpsbrkjbdj" path="res://UI/Controls/tile_0169.png" id="8_y7yrm"]
@@ -19,7 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://co2pmb7ygroa0" path="res://UI/Controls/tile_0311.png" id="15_ksfje"]
 [ext_resource type="Texture2D" uid="uid://d0js2rxtfddf3" path="res://UI/Controls/tile_0017.png" id="16_efhja"]
 [ext_resource type="Texture2D" uid="uid://iqyfhmeo2iax" path="res://UI/Controls/tile_0802.png" id="17_2b0f6"]
-[ext_resource type="Script" path="res://Scripts/CreditsMenu.gd" id="19_306vd"]
+[ext_resource type="Script" uid="uid://tinpcks0vodw" path="res://Scripts/CreditsMenu.gd" id="19_306vd"]
 
 [node name="MainMenu" type="TextureRect"]
 process_mode = 3
@@ -324,7 +324,7 @@ text = "MAIN MENU"
 
 [node name="CreditsMenu" type="CenterContainer" parent="."]
 visible = false
-layout_mode = 2
+layout_mode = 0
 offset_left = 832.0
 offset_top = 412.0
 offset_right = 1088.0
