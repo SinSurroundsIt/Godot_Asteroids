@@ -7,15 +7,24 @@ var _high_score: int = -1
 #On ready, loads the highscores from disk.
 func _ready():
 	_Load_Score()
+	# Listen for save requests fired at game over
+	Events.save_score.connect(_On_Save_Score)
 
 
-func _Save_Score(_username: String, _new_score: int):
-	if (_new_score > _high_score):
-		var _score_file = FileAccess.open(HIGH_SCORE_FILE_PATH, FileAccess.WRITE)
-		var _score_data: Dictionary = {"name": _username, "score": _new_score}
-		var _json_string = JSON.stringify(_score_data)
-		_score_file.store_line(_json_string)
-		_score_file.close()
+func _On_Save_Score(_username: String, _new_score: int) -> void:
+	_Save_Score(_username, _new_score)
+
+
+func _Save_Score(_username: String, _new_score: int) -> void:
+	if _new_score > _high_score:
+		_high_score_name = _username
+		_high_score = _new_score
+		var _score_file := FileAccess.open(HIGH_SCORE_FILE_PATH, FileAccess.WRITE)
+		if _score_file:
+			var _score_data: Dictionary = {"name": _username, "score": _new_score}
+			var _json_string := JSON.stringify(_score_data)
+			_score_file.store_line(_json_string)
+			_score_file.close()
 	
 func _Load_Score():
 	if not FileAccess.file_exists(HIGH_SCORE_FILE_PATH):

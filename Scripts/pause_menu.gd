@@ -25,17 +25,14 @@ func _Game_State_Update(paused: bool):
 
 func _Unpause():
 	animator.play("Unpause")
-	print("Unpause")
 	get_tree().paused = false
 	queue_free()
 	
 func _Pause():
 	animator.play("Pause")
-	print("Pause")
 	get_tree().paused = true
 	
 func _To_Main_Menu():
-	print("To Main Menu")
 	_Unpause()
 	call_deferred("_Call_Deferred_Switch_Scene")
 	queue_free()

@@ -127,9 +127,9 @@ func _on_laser_cooldown_timeout():
 		_Fire_Laser()
 
 func _on_body_shape_entered(_body_rid, body, _body_shape_index, local_shape_index):
-		print(body)
-		var shape = self.shape_owner_get_owner(self.shape_find_owner(local_shape_index))
-		if shape == hull_collider:
+	# Only trigger fatal collisions when the ship's main hull is hit (ignore shield/children).
+	var shape = self.shape_owner_get_owner(self.shape_find_owner(local_shape_index))
+	if shape == hull_collider:
 				var asteroid: Asteroid = body
 				if asteroid.size > 1 && !_b_ship_invuln:
 					_Ship_Kill()
@@ -143,6 +143,8 @@ func _Set_Ship_Invuln(is_invuln: bool):
 func _Ship_Kill():
 	if !_b_ship_dead:
 		_b_ship_dead = true
+		shield.disable_collisions()
+		_disable_body_collisions()
 		shield.set_ship_dead(true)
 		_Make_Explosion(position)
 	else:
@@ -152,7 +154,15 @@ func _Ship_Explode(_pos: Vector2):
 	Events.ship_explode.emit(_pos, randf_range(0.8, 1.2))
 	Events.player_died.emit()
 	shield.cleanup()
+	_disable_body_collisions()
 	queue_free()
+
+func _disable_body_collisions() -> void:
+	# Prevent further area callbacks (e.g., SpawnArea) during teardown to avoid Box2D exit bookkeeping errors.
+	set_deferred("collision_layer", 0)
+	set_deferred("collision_mask", 0)
+	call_deferred("set_contact_monitor", false)
+	call_deferred("set_max_contacts_reported", 0)
 
 func _Explosion_Timer():
 	_Make_Explosion(position)

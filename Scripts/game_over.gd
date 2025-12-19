@@ -8,8 +8,9 @@ extends ColorRect
 @onready var high_score_name_label: Label = get_node("CCont/PCont/MCont/VBoxTop/CurrentHighScoreVBox/HBoxContainer/HighScoreName")
 @onready var high_score_score_label: Label = get_node("CCont/PCont/MCont/VBoxTop/CurrentHighScoreVBox/HBoxContainer/HighScoreScore")
 
-var _current_scene = null
-var s = null
+var _current_scene: Node = null
+# Preload to avoid a hitch when the game-over screen first opens.
+var _main_menu_scene: PackedScene = preload("res://Scenes/main_menu.tscn")
 
 var _b_high_score: bool = false
 var _current_score: int = 0
@@ -17,7 +18,6 @@ var _current_score: int = 0
 func _ready() -> void:
 	var _root = get_tree().root
 	_current_scene = _root.get_child(_root.get_child_count() - 1)
-	s = ResourceLoader.load("res://Scenes/main_menu.tscn")
 	
 	resume_button.pressed.connect(_On_New_Game_Pressed)
 	menu_button.pressed.connect(_To_Main_Menu)
@@ -34,14 +34,13 @@ func _Pause():
 	animator.play("Pause")
 	
 func _To_Main_Menu():
-	print("To Main Menu")
 	_Unpause()
 	call_deferred("_Call_Deferred_Switch_Scene")
 	queue_free()
 	
 func _Call_Deferred_Switch_Scene():
 	_current_scene.queue_free()
-	_current_scene = s.instantiate()
+	_current_scene = _main_menu_scene.instantiate()
 	get_tree().root.add_child(_current_scene)
 	get_tree().current_scene = _current_scene
 	
@@ -61,8 +60,8 @@ func _On_New_Game_Pressed():
 	_Unpause()
 	queue_free()
 	
-func _New_Game(_b_high_score: bool, _score_name: String, _score: int):
-	if _b_high_score:
+func _New_Game(high_score: bool, _score_name: String, _score: int):
+	if high_score:
 		Events.save_score.emit(_score_name, _score)
 		Events.new_game.emit()
 	else:

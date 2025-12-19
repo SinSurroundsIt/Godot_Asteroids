@@ -41,6 +41,8 @@ max_contacts_reported = 5
 contact_monitor = true
 linear_damp = 0.1
 angular_damp = 0.3
+collision_layer = 1
+collision_mask = 2
 script = ExtResource("1_1w35p")
 
 [node name="thrust_sprite" type="Sprite2D" parent="."]
@@ -104,6 +106,8 @@ volume_db = -20.0
 pitch_scale = 1.35
 
 [node name="shield" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("6_2kn06")
 
 [node name="shield_charge_timer" type="Timer" parent="shield"]

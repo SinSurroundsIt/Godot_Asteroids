@@ -74,13 +74,10 @@ func _Next_Song():
 	var library_size = music_library_copy.size()
 	if library_size == 0:
 		music_library_copy = music_library_orig.duplicate(true)
-		var x = randi_range(0, library_size - 1)
-		music_stream.stream = music_library_copy[x]
-		music_stream.play()
-	else:
-		var x = randi_range(0, library_size - 1)
-		music_stream.stream = music_library_copy[x]
-		music_stream.play()
+		library_size = music_library_copy.size()
+	var x = randi_range(0, library_size - 1)
+	music_stream.stream = music_library_copy[x]
+	music_stream.play()
 
 func _On_Music_Volume_Changed(new_volume: float) -> void:
 	music_stream.volume_db = new_volume

@@ -16,3 +16,5 @@ data_*/
 *.cfg
 .godot/editor/filesystem_cache8
 .godot/editor/filesystem_update4
+.godot/editor/shader_cache
+*.cache

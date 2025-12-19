@@ -14,6 +14,8 @@ radius = 48.0
 script = ExtResource("1_2ryvo")
 med_collider_rad = 24.0
 small_collider_rad = 12.0
+collision_layer = 2
+collision_mask = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("CompressedTexture2D_cqxlr")

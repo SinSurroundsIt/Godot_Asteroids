@@ -16,6 +16,7 @@ func _ready():
 	music_slider.value = GameSettings.music_volume
 	sfx_slider.value = GameSettings.sfx_volume
 	ui_slider.value = GameSettings.ui_volume
+	# Reflect any persisted settings back into the UI on reopen.
 
 
 func _Switch_To_This_Menu():

@@ -48,7 +48,6 @@ func _Destroyed_Asteroid(size: int, _position: Vector2, _velocity: Vector2) -> v
 	else:
 		_Update_Score(3)
 	_current_asteroids -= 1
-	print("Asteroid Destroyed: " + str(_current_asteroids))
 	if _current_asteroids == 0:
 		_level += 1
 		Events.update_level.emit(_level)
@@ -102,12 +101,12 @@ func _Game_Over() -> void:
 	Events.game_over.emit(_score)
 
 func _New_Level() -> void:
+	# Slightly sub-linear spawn curve: keeps early levels gentle while still ramping count.
 	_level_asteroids = ceili(17.07 * (log(_level) / log(10)) + 1)
 	Events.level_start.emit(_level, _level_asteroids)
 	
 func _Asteroid_Spawned() -> void:
 	_current_asteroids += 1
-	print(_current_asteroids)
 	
 func _New_Game():
 	

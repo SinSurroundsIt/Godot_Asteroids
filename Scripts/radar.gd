@@ -9,6 +9,7 @@ var _asteroid_sprites: Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_asteroid_sprites = []
 	timer.timeout.connect(_On_Timer_Timeout)
 	Events.send_asteroids.connect(_Update_Asteroids)
 	Events.get_asteroids.emit()
@@ -23,6 +24,7 @@ func _Remove_Asteroids():
 	for sprite in _asteroid_sprites:
 		if sprite != null:
 			sprite.queue_free()
+	_asteroid_sprites.clear()
 
 
 func _Update_Asteroids(_asteroids: Array):

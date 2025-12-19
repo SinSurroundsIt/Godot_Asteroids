@@ -18,15 +18,15 @@ var _shield_brightness: float = 100
 
 var _b_ship_invuln: bool = false
 var _b_ship_dead: bool = false
-
-
-
+var _collisions_disabled: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_shield_strength = max_shield_strength
 	Events.update_shield_strength.emit(max_shield_strength, _shield_strength)
 	shield_timer.timeout.connect(Shield_Timer_Stop)
+	body_exited.connect(_on_body_exited)
+	# Keep monitoring on; avoid toggling to reduce Box2D exit bookkeeping issues.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.aa
@@ -34,7 +34,7 @@ func _process(delta):
 	if !_b_ship_dead:
 		if _shield_strength < max_shield_strength:
 			_shield_strength += delta / shield_recharge_time
-		clampf(_shield_strength, 0, max_shield_strength)
+		_shield_strength = clampf(_shield_strength, 0, max_shield_strength)
 		Events.update_shield_strength.emit(max_shield_strength, _shield_strength)
 		if shield_light.energy > 0:
 			shield_light.energy -= delta * _shield_brightness / shield_fade_time
@@ -49,6 +49,9 @@ func _on_body_entered(body):
 		if object.is_in_group("asteroids"):
 			var asteroid: Asteroid = object
 			_Damage_Shield(asteroid, asteroid.size, asteroid.position)
+
+func _on_body_exited(body):
+	pass
 
 func _Damage_Shield(asteroid: Asteroid, size: int, _pos: Vector2):
 	
@@ -102,8 +105,16 @@ func set_ship_dead(state: bool) -> void:
 	_b_ship_dead = state
 
 func disable_collisions() -> void:
-	set_deferred("monitoring", false)
-	set_deferred("monitorable", false)
+	if _collisions_disabled:
+		return
+	_collisions_disabled = true
+	# Leave monitoring on so Box2D can emit clean exit callbacks; just remove collisions.
+	set_deferred("collision_layer", 0)
+	set_deferred("collision_mask", 0)
+	set_physics_process(false)
+	set_process(false)
+	call_deferred("set_monitoring", false)
+	call_deferred("set_monitorable", false)
 
 func cleanup() -> void:
 	disable_collisions()

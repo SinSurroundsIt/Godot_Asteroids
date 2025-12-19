@@ -1,10 +1,16 @@
 extends Area2D
 
 var _b_repulse: bool = false
-
+@onready var _radius: float = ($CollisionShape2D.shape as CircleShape2D).radius
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# Disable monitoring entirely; we will repulse via manual distance checks to avoid Box2D area exit issues.
+	set_deferred("monitoring", false)
+	set_deferred("monitorable", false)
+	set_deferred("collision_layer", 0)
+	set_deferred("collision_mask", 0)
+	set_physics_process(false)
 	Events.set_spawn_safety.connect(_Set_Repulse)
 
 
@@ -14,17 +20,13 @@ func _physics_process(_delta):
 
 
 func _Repulse_Bodies() -> void:
-	var bodies: Array = get_overlapping_bodies()
-	for body in bodies:
-		if body.is_in_group("asteroids"):
-			var asteroid: Asteroid = body
-			var direction = _Get_Direction(position, asteroid.position)
+	var asteroids: Array = get_tree().get_nodes_in_group("asteroids")
+	for asteroid: Asteroid in asteroids:
+		var to_body: Vector2 = asteroid.position - position
+		if to_body.length_squared() <= _radius * _radius:
+			var direction = to_body.normalized()
 			asteroid.apply_central_force(direction * GameSettings.repulse_strength * asteroid.mass)
-
-func _Get_Direction(from: Vector2, to: Vector2) -> Vector2:
-	var direction: Vector2
-	direction = (to - from).normalized()
-	return direction
 
 func _Set_Repulse(repulse: bool):
 	_b_repulse = repulse
+	set_physics_process(repulse)

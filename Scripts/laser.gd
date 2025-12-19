@@ -13,6 +13,7 @@ var _lifetime_travel: float
 
 
 func _ready() -> void:
+	# Ignore the shooter so the raycast won't immediately collide with the firing ship.
 	_raycast.add_exception(source)
 
 
