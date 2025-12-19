@@ -9,3 +9,8 @@ func _ready():
 	music_stream.stream = menu_music
 	music_stream.volume_db = GameSettings.music_volume
 	music_stream.play()
+	
+	GameSettings.music_volume_changed.connect(_On_Music_Volume_Changed)
+
+func _On_Music_Volume_Changed(new_volume: float) -> void:
+	music_stream.volume_db = new_volume

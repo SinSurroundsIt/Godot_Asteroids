@@ -37,6 +37,7 @@ func _ready() -> void:
 	Events.new_player_ship.connect(_Set_Player_Ship)
 	Events.level_start.connect(_New_Level)
 	Events.get_asteroids.connect(_Get_Asteroids_Group)
+	Events.new_game.connect(_On_New_Game)
 	
 	_current_spawn_time = asteroid_spawn_time
 
@@ -44,7 +45,8 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta) -> void:
 	#_Update_Asteroid_Timer(_delta)
-	pass
+	if Input.is_physical_key_pressed(KEY_HOME):
+		Spawn_Asteroid(1, 3)
 
 func Spawn_Asteroid(_number: int, _size: int) -> void: 
 	for i in _number:
@@ -130,7 +132,7 @@ func _Asteroid_Destroyed(size: int, pos: Vector2, vel: Vector2) -> void:
 			asteroid.apply_whack((new_vel * temp_speed) * (size - 1) * asteroid.mass * randf_range(0.5, 1.5))
 			asteroid.apply_spin(randf_range(-100, 100) * asteroid.mass)
 			temp_vel = vel_in
-	Events.asteroid_explode.emit(pos, vel)
+	Events.asteroid_explode.emit(pos, vel, size)
 			
 func _Get_Offscreen_Spawn_Point() -> Vector2:
 	var quadrant: int = randi_range(0, 3)
@@ -175,3 +177,12 @@ func _New_Level(_asteroids: int, _level: int) -> void:
 func _Get_Asteroids_Group() -> void:
 	var _asteroids: Array = get_tree().get_nodes_in_group("asteroids")
 	Events.send_asteroids.emit(_asteroids)
+
+func _On_New_Game() -> void:
+	var asteroids = get_tree().get_nodes_in_group("asteroids")
+	for asteroid in asteroids:
+		if asteroid.has_method("cleanup"):
+			asteroid.cleanup()
+		else:
+			asteroid.queue_free()
+	_current_large_asteroids = 0

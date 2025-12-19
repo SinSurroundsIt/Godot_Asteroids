@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GD_Asteroids"
-run/main_scene="res://Scenes/main_menu.tscn"
+run/main_scene="res://Scenes/LoadingScreen.tscn"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -84,5 +84,3 @@ game_over={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"

@@ -34,7 +34,7 @@ func _Update_Music(changed: bool):
 
 func _Update_SFX(changed: bool):
 	if changed:
-		GameSettings.sfx_volume_volume = sfx_slider.value
+		GameSettings.sfx_volume = sfx_slider.value
 
 
 func _Update_UI(changed: bool):

@@ -110,9 +110,6 @@ func _Asteroid_Spawned() -> void:
 	print(_current_asteroids)
 	
 func _New_Game():
-	var asteroids: Array = get_tree().get_nodes_in_group("asteroids")
-	for asteroid: Asteroid in asteroids:
-		asteroid.queue_free()
 	
 	lives = starting_lives
 	_score = 0

@@ -26,7 +26,7 @@ signal update_level(new_level: int)
 #used to set ship to invulnerable and repel objects from origin
 signal set_spawn_safety(b_safe: bool)
 
-signal asteroid_explode(position: Vector2, velocity: Vector2 )
+signal asteroid_explode(position: Vector2, velocity: Vector2, size: int)
 signal asteroid_laser_hit(pos: Vector2, normal: Vector2)
 
 signal update_shield_strength(max: float, strength: float)
@@ -36,7 +36,7 @@ signal shield_timer_stop()
 signal shield_hit()
 signal shield_down()
 
-signal ship_explode(_pos: Vector2)
+signal ship_explode(_pos: Vector2, scale: float)
 
 #used to send the number of asteroids to Asteroid Manager, and the level to the new level pop-up (TODO)
 signal level_start(asteroids: int, level: int)

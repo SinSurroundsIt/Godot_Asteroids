@@ -94,3 +94,16 @@ func shields_down():
 		
 func Shield_Timer_Stop():
 	Events.shield_timer_stop.emit()
+
+func set_invulnerable(state: bool) -> void:
+	_b_ship_invuln = state
+
+func set_ship_dead(state: bool) -> void:
+	_b_ship_dead = state
+
+func disable_collisions() -> void:
+	set_deferred("monitoring", false)
+	set_deferred("monitorable", false)
+
+func cleanup() -> void:
+	disable_collisions()

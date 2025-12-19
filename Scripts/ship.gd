@@ -80,6 +80,9 @@ func _process(_delta):
 			_b_shooting = true
 		else:
 			_b_shooting = false
+			
+		if Input.is_physical_key_pressed(KEY_END):
+			_Ship_Kill()
 	else:
 		_b_shooting = false
 		_rot_input = 0.1
@@ -134,28 +137,37 @@ func _on_body_shape_entered(_body_rid, body, _body_shape_index, local_shape_inde
 				
 func _Set_Ship_Invuln(is_invuln: bool):
 	_b_ship_invuln = is_invuln
-	shield._b_ship_invuln = is_invuln
+	_b_ship_invuln = is_invuln
+	shield.set_invulnerable(is_invuln)
 	
 func _Ship_Kill():
 	if !_b_ship_dead:
 		_b_ship_dead = true
-		shield._b_ship_dead = true
+		shield.set_ship_dead(true)
 		_Make_Explosion(position)
 	else:
 		_Ship_Explode(position)
 
 func _Ship_Explode(_pos: Vector2):
-	Events.ship_explode.emit(_pos)
+	Events.ship_explode.emit(_pos, randf_range(0.8, 1.2))
 	Events.player_died.emit()
+	shield.cleanup()
 	queue_free()
 
 func _Explosion_Timer():
 	_Make_Explosion(position)
 
 func _Make_Explosion(_pos: Vector2):
-	Events.ship_explode.emit(_pos)
+	Events.ship_explode.emit(_pos, randf_range(0.1, 0.3))
 	if explosions_to_die > 0:
 		explode_timer.start(base_time_between_explosions + randf_range(-0.25, 0.25))
 		explosions_to_die -= 1
 	else:
 		_Ship_Explode(position)
+
+func disable_collisions() -> void:
+	shield.disable_collisions()
+
+func cleanup() -> void:
+	disable_collisions()
+	queue_free()

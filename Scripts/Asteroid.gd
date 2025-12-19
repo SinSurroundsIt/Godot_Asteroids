@@ -58,11 +58,17 @@ func take_weapon_damage() -> void:
 		
 func destroy() -> void:
 	Events.asteroid_destroyed.emit(size, position, linear_velocity)
-	Events.asteroid_destroyed_sound.emit()
-	queue_free()
+	cleanup()
 		
 func apply_whack(_impulse: Vector2) -> void:
 	apply_central_impulse(_impulse)
 	
 func apply_spin(_impulse: float) -> void:
 	apply_torque_impulse(_impulse)
+
+func disable_collisions() -> void:
+	collider.set_deferred("disabled", true)
+
+func cleanup() -> void:
+	disable_collisions()
+	queue_free()

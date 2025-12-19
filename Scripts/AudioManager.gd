@@ -30,6 +30,7 @@ func _ready():
 	Events.shield_down.connect(_On_Events_Shield_Hit)
 	Events.ship_explode.connect(_On_Events_Ship_Explode)
 	music_stream.finished.connect(_Next_Song)
+	GameSettings.music_volume_changed.connect(_On_Music_Volume_Changed)
 	
 	_Start_Music()
 
@@ -46,7 +47,7 @@ func _On_Events_Shield_Hit():
 func _On_Events_Shield_Down():
 	_Play_Sound_One_Off(shield_sound, randf_range(0.3, 0.5), randf_range(GameSettings.sfx_volume - 5, GameSettings.sfx_volume - 10))
 	
-func _On_Events_Ship_Explode(_pos: Vector2):
+func _On_Events_Ship_Explode(_pos: Vector2, _scale: float):
 	var sound = ship_explode_library.pick_random()
 	_Play_Sound_One_Off(sound, randf_range(0.5, 0.7), randf_range(GameSettings.sfx_volume, GameSettings.sfx_volume - 5))
 	
@@ -80,3 +81,6 @@ func _Next_Song():
 		var x = randi_range(0, library_size - 1)
 		music_stream.stream = music_library_copy[x]
 		music_stream.play()
+
+func _On_Music_Volume_Changed(new_volume: float) -> void:
+	music_stream.volume_db = new_volume

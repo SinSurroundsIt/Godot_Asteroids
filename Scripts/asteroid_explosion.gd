@@ -5,8 +5,7 @@ extends Node2D
 
 
 func _ready():
-	sfx_explode.emitting = true
-	sfx_sparks.emitting = true
+	pass
 
 func _on_gpu_particles_2d_finished():
-	call_deferred("queue_free")
+	queue_free()

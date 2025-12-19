@@ -10,17 +10,27 @@ func _ready():
 	Events.asteroid_laser_hit.connect(_Laser_Impact)
 
 
-func _Asteroid_Explosion(pos: Vector2, _vel: Vector2):
+func _Asteroid_Explosion(pos: Vector2, _vel: Vector2, size: int):
 	var explosion = asteroid_explosion_tscn.instantiate()
 	add_child(explosion)
 	explosion.position = pos
+	explosion.z_index = 100
+	
+	var scale_factor: float = 1.0
+	if size == 2:
+		scale_factor = 0.75
+	elif size == 1:
+		scale_factor = 0.5
+	explosion.scale = Vector2(scale_factor, scale_factor)
 
-func _Ship_Explosion(pos: Vector2):
+func _Ship_Explosion(pos: Vector2, scale: float):
 	var displacement_vector: Vector2 = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized() * randf_range(8, 16)
 	var new_pos: Vector2 = pos + displacement_vector
 	var explosion = asteroid_explosion_tscn.instantiate()
 	add_child(explosion)
 	explosion.position = new_pos
+	explosion.z_index = 100
+	explosion.scale = Vector2(scale, scale)
 
 func _Laser_Impact(_pos: Vector2, _normal: Vector2):
 	var impact = laser_impact_tscn.instantiate()
