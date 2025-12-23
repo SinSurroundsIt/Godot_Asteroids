@@ -13,6 +13,11 @@ class_name Ship
 @export var explosions_to_die: int = 4
 @export var base_time_between_explosions: float = 1.25
 
+@export_group("Death Drift Physics")
+@export var drift_impulse_multiplier: float = 0.15
+@export var drift_random_angle_range: float = 0.3
+@export var drift_torque_range: float = 50.0
+
 var _local_velocity: Vector2
 var _move_input: float = 0.0
 var _rot_input: float = 0.0
@@ -151,16 +156,18 @@ func _Ship_Kill(asteroid: Asteroid = null):
 		if asteroid:
 			var impact_vel: Vector2 = asteroid.linear_velocity - linear_velocity
 			var impact_strength: float = impact_vel.length()
-			# Scale impulse based on asteroid size and impact velocity
-			var drift_multiplier: float = asteroid.size * 0.15
-			var drift_impulse: Vector2 = impact_vel.normalized() * impact_strength * drift_multiplier * mass
-			# Add small random variation to make it feel more natural
-			var random_angle: float = randf_range(-0.3, 0.3)
-			drift_impulse = drift_impulse.rotated(random_angle)
-			apply_central_impulse(drift_impulse)
-			# Apply small random torque for spin
-			var random_torque: float = randf_range(-50.0, 50.0) * asteroid.size * mass
-			apply_torque_impulse(random_torque)
+			# Only apply impulse if there's actual impact velocity
+			if impact_strength > 0.0:
+				# Scale impulse based on asteroid size and impact velocity
+				var drift_multiplier: float = asteroid.size * drift_impulse_multiplier
+				var drift_impulse: Vector2 = impact_vel.normalized() * impact_strength * drift_multiplier * mass
+				# Add small random variation to make it feel more natural
+				var random_angle: float = randf_range(-drift_random_angle_range, drift_random_angle_range)
+				drift_impulse = drift_impulse.rotated(random_angle)
+				apply_central_impulse(drift_impulse)
+				# Apply small random torque for spin
+				var random_torque: float = randf_range(-drift_torque_range, drift_torque_range) * asteroid.size * mass
+				apply_torque_impulse(random_torque)
 		
 		_Make_Explosion(position)
 	else:
