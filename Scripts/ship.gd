@@ -137,7 +137,6 @@ func _on_body_shape_entered(_body_rid, body, _body_shape_index, local_shape_inde
 				
 func _Set_Ship_Invuln(is_invuln: bool):
 	_b_ship_invuln = is_invuln
-	_b_ship_invuln = is_invuln
 	shield.set_invulnerable(is_invuln)
 	
 func _Ship_Kill():
