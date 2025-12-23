@@ -85,8 +85,8 @@ func _process(_delta):
 			_Ship_Kill()
 	else:
 		_b_shooting = false
-		_rot_input = 0.1
-		_move_input = 0.1
+		_rot_input = 0.0
+		_move_input = 0.0
 
 func _physics_process(delta):
 	_update_state(delta)
