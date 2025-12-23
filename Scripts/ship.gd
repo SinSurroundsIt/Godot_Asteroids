@@ -85,8 +85,8 @@ func _process(_delta):
 			_Ship_Kill()
 	else:
 		_b_shooting = false
-		_rot_input = 0.1
-		_move_input = 0.1
+		_rot_input = 0.0
+		_move_input = 0.0
 
 func _physics_process(delta):
 	_update_state(delta)
@@ -132,7 +132,7 @@ func _on_body_shape_entered(_body_rid, body, _body_shape_index, local_shape_inde
 	if shape == hull_collider:
 				var asteroid: Asteroid = body
 				if asteroid.size > 1 && !_b_ship_invuln:
-					_Ship_Kill()
+					_Ship_Kill(asteroid)
 
 				
 func _Set_Ship_Invuln(is_invuln: bool):
@@ -140,12 +140,28 @@ func _Set_Ship_Invuln(is_invuln: bool):
 	_b_ship_invuln = is_invuln
 	shield.set_invulnerable(is_invuln)
 	
-func _Ship_Kill():
+func _Ship_Kill(asteroid: Asteroid = null):
 	if !_b_ship_dead:
 		_b_ship_dead = true
 		shield.disable_collisions()
 		_disable_body_collisions()
 		shield.set_ship_dead(true)
+		
+		# Apply a small post-impact drift impulse if killed by asteroid collision
+		if asteroid:
+			var impact_vel: Vector2 = asteroid.linear_velocity - linear_velocity
+			var impact_strength: float = impact_vel.length()
+			# Scale impulse based on asteroid size and impact velocity
+			var drift_multiplier: float = asteroid.size * 0.15
+			var drift_impulse: Vector2 = impact_vel.normalized() * impact_strength * drift_multiplier * mass
+			# Add small random variation to make it feel more natural
+			var random_angle: float = randf_range(-0.3, 0.3)
+			drift_impulse = drift_impulse.rotated(random_angle)
+			apply_central_impulse(drift_impulse)
+			# Apply small random torque for spin
+			var random_torque: float = randf_range(-50.0, 50.0) * asteroid.size * mass
+			apply_torque_impulse(random_torque)
+		
 		_Make_Explosion(position)
 	else:
 		_Ship_Explode(position)
