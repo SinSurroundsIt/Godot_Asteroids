@@ -27,7 +27,7 @@ func _ready():
 	Events.fire_laser_sound.connect(_On_Events_Fire_Laser)
 	Events.asteroid_destroyed_sound.connect(_On_Events_Asteroid_Destroyed)
 	Events.shield_hit.connect(_On_Events_Shield_Hit)
-	Events.shield_down.connect(_On_Events_Shield_Hit)
+	Events.shield_down.connect(_On_Events_Shield_Down)
 	Events.ship_explode.connect(_On_Events_Ship_Explode)
 	music_stream.finished.connect(_Next_Song)
 	GameSettings.music_volume_changed.connect(_On_Music_Volume_Changed)
@@ -45,7 +45,7 @@ func _On_Events_Shield_Hit():
 	_Play_Sound_One_Off(shield_sound, randf_range(0.5, 0.7), randf_range(GameSettings.sfx_volume - 5, GameSettings.sfx_volume - 10))
 	
 func _On_Events_Shield_Down():
-	_Play_Sound_One_Off(shield_sound, randf_range(0.3, 0.5), randf_range(GameSettings.sfx_volume - 5, GameSettings.sfx_volume - 10))
+	_Play_Sound_One_Off(shield_down_sound, randf_range(0.3, 0.5), randf_range(GameSettings.sfx_volume - 5, GameSettings.sfx_volume - 10))
 	
 func _On_Events_Ship_Explode(_pos: Vector2, _scale: float):
 	var sound = ship_explode_library.pick_random()
