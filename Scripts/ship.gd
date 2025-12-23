@@ -130,9 +130,11 @@ func _on_body_shape_entered(_body_rid, body, _body_shape_index, local_shape_inde
 	# Only trigger fatal collisions when the ship's main hull is hit (ignore shield/children).
 	var shape = self.shape_owner_get_owner(self.shape_find_owner(local_shape_index))
 	if shape == hull_collider:
-				var asteroid: Asteroid = body
-				if asteroid.size > 1 && !_b_ship_invuln:
-					_Ship_Kill()
+		# Guard: only process asteroid collisions
+		if body is Asteroid:
+			var asteroid: Asteroid = body
+			if asteroid.size > 1 && !_b_ship_invuln:
+				_Ship_Kill()
 
 				
 func _Set_Ship_Invuln(is_invuln: bool):
